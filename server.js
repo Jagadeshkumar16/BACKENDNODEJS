@@ -31,13 +31,13 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Planet is revolving....." });
 });
 
-require("./app/routes/turorial.routes")(app);
+require("./app/routes/api.routes")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 1607;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
