@@ -1,7 +1,7 @@
 module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
-      mutationrate:float
+      mutationrate:Float32Array
     },
     { timestamps: true }
   );
