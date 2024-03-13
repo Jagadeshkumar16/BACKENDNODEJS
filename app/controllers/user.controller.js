@@ -32,6 +32,7 @@ exports.create = (req, res) => {
 };
 
 exports.login = (req, res) => {
+  console.log(req.body);
   if (!req.body.username || !req.body.password) {
     res.status(401).send({ message: "Invalid Credentials!" });
     return;
