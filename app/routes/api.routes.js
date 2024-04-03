@@ -10,182 +10,106 @@ module.exports = app => {
   const resource = require("../controllers/resource.controller.js");
   const weather = require("../controllers/weather.controller.js");
   const user = require("../controllers/user.controller.js");
-  
 
   var router = require("express").Router();
 
-  //cell//
+  // cell routes
   router.post("/cell/", cell.create);
-
   router.get("/cell/", cell.findAll);
-  
   router.get("/cell/published", cell.findAllPublished);
-  
   router.get("/cell/:id", cell.findOne);
-
   router.put("/cell/:id", cell.update);
-
   router.delete("/cell/:id", cell.delete);
-
   router.delete("/cell/", cell.deleteAll);
 
-
-
-
-  //environment//
+  // environment routes
   router.post("/environment/", environment.create);
-
   router.get("/environment/", environment.findAll);
-
   router.get("/environment/published", environment.findAllPublished);
-
   router.get("/environment/:id", environment.findOne);
-
   router.put("/environment/:id", environment.update);
-
   router.delete("/environment/:id", environment.delete);
-
   router.delete("/environment/", environment.deleteAll);
 
-
-
-  
-  // habitat
+  // habitat routes
   router.post("/habitat/", habitat.create);
-
   router.get("/habitat/", habitat.findAll);
-
   router.get("/habitat/published", habitat.findAllPublished);
-
   router.get("/habitat/:id", habitat.findOne);
-
   router.put("/habitat/:id", habitat.update);
-
   router.delete("/habitat/:id", habitat.delete);
-
   router.delete("/habitat/", habitat.deleteAll);
 
-
-  
-  // interaction
+  // interaction routes
   router.post("/interaction/", interaction.create);
-
   router.get("/interaction/", interaction.findAll);
-
   router.get("/interaction/published", interaction.findAllPublished);
-
   router.get("/interaction/:id", interaction.findOne);
-
   router.put("/interaction/:id", interaction.update);
-
   router.delete("/interaction/:id", interaction.delete);
-
   router.delete("/interaction/", interaction.deleteAll);
 
-
-  // mutation
+  // mutation routes
   router.post("/mutation/", mutation.create);
-
   router.get("/mutation/", mutation.findAll);
-
   router.get("/mutation/published", mutation.findAllPublished);
-
   router.get("/mutation/:id", mutation.findOne);
-
   router.put("/mutation/:id", mutation.update);
-
   router.delete("/mutation/:id", mutation.delete);
-
   router.delete("/mutation/", mutation.deleteAll);
 
+  // population routes
+  router.post("/population/", population.create);
+  router.get("/population/", population.findAll);
+  router.get("/population/published", population.findAllPublished);
+  router.get("/population/:id", population.findOne);
+  router.put("/population/:id", population.update);
+  router.delete("/population/:id", population.delete);
+  router.delete("/population/", population.deleteAll);
 
-
-    // population
-    router.post("/population/", population.create);
-
-    router.get("/population/", population.findAll);
-  
-    router.get("/population/published", population.findAllPublished);
-  
-    router.get("/population/:id", population.findOne);
-  
-    router.put("/population/:id", population.update);
-  
-    router.delete("/population/:id", population.delete);
-  
-    router.delete("/population/", population.deleteAll);
-
-
-      // organism
+  // organism routes
   router.post("/organism/", organism.create);
-
   router.get("/organism/", organism.findAll);
-
   router.get("/organism/published", organism.findAllPublished);
-
   router.get("/organism/:id", organism.findOne);
-
   router.put("/organism/:id", organism.update);
-
   router.delete("/organism/:id", organism.delete);
-
   router.delete("/organism/", organism.deleteAll);
+  router.get("/organismsimulation", organism.simulation);
 
-
-
-  // predator
+  // predator routes
   router.post("/predator/", predator.create);
-
   router.get("/predator/", predator.findAll);
-
   router.get("/predator/published", predator.findAllPublished);
-
   router.get("/predator/:id", predator.findOne);
-
   router.put("/predator/:id", predator.update);
-
   router.delete("/predator/:id", predator.delete);
-
   router.delete("/predator/", predator.deleteAll);
 
-
-  // weather
+  // weather routes
   router.post("/weather/", weather.create);
-
   router.get("/weather/", weather.findAll);
-
   router.get("/weather/published", weather.findAllPublished);
-
   router.get("/weather/:id", weather.findOne);
-
   router.put("/weather/:id", weather.update);
-
   router.delete("/weather/:id", weather.delete);
-
   router.delete("/weather/", weather.deleteAll);
 
-
-
-  // resource
+  // resource routes
   router.post("/resource/", resource.create);
-
   router.get("/resource/", resource.findAll);
-
   router.get("/resource/published", resource.findAllPublished);
-
   router.get("/resource/:id", resource.findOne);
-
   router.put("/resource/:id", resource.update);
-
   router.delete("/resource/:id", resource.delete);
-
   router.delete("/resource/", resource.deleteAll);
 
-
-
+  // user routes
   router.post("/user/", user.create);
-
   router.post("/login/", user.login);
+  router.get("/cell/", (req, res) => {
+    cell.findAll(req, res); // Call the controller method for finding all cells
+  });
 
   app.use("/api", router);
 };
