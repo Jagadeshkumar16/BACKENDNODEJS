@@ -102,7 +102,7 @@ exports.delete = (req, res) => {
         });
       } else {
         res.send({
-          message: "Organism was deleted successfully!"
+          message: "Organism was died successfully!"
         });
       }
     })
@@ -112,6 +112,92 @@ exports.delete = (req, res) => {
       });
     });
 };
+ 
+
+exports.simulation = (req, res) => {
+  console.log('Simulation');
+  const action = req.query.action;
+
+  if (action == 'hunting') {
+    var condition = {};
+    let st = new Set();
+    let deadSpec = [];
+    Organism.find(condition)
+      .then(data => {
+        console.log(data);
+        let i = data.length;
+        while (st.size < 10) {
+          st.add(Math.floor(Math.random() * data.length));
+        }
+        st.forEach(index => {
+          deadSpec.push(data[index].species);
+          Organism.findByIdAndRemove(data[index]._id, { useFindAndModify: false })
+            .then(deletedData => {
+              if (!deletedData) {
+                console.log(`Cannot delete Organism with id=${data[index]._id}. Maybe Organism was not found!`);
+              } else {
+                console.log("Organism was died successfully!");
+              }
+            })
+            .catch(err => {
+              console.log(`Could not delete Organism with id=${data[index]._id}`);
+            });
+        });
+        Organism.find({})
+          .then(data => {
+            console.log(data);
+            res.send({ "data": data, "simulated": deadSpec });
+          })
+          .catch(err => {
+            res.status(500).send({
+              message: err.message || "Some error occurred while retrieving organisms."
+            });
+          });
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while retrieving organisms."
+        });
+      });
+  } else if (action == 'reproduce') {
+    let species = ['Human', 'Lion', 'Giraffe', 'Eagle', 'Pigeon', 'Cell'];
+    let reprodSpecies = [];
+    while (reprodSpecies.length < 5) {
+      reprodSpecies.push(species[Math.floor(Math.random() * species.length)]);
+    }
+    reprodSpecies.forEach(spec => {
+      const organism = new Organism({
+        species: spec,
+        age: undefined,
+        health: undefined,
+        environment: undefined
+      });
+
+      organism
+        .save()
+        .then(data => {
+          console.log("Organism was created successfully!");
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: err.message || "Some error occurred while creating the Organism."
+          });
+        });
+    });
+
+    Organism.find({})
+      .then(data => {
+        console.log(data);
+        res.send({ "data": data, "simulated": reprodSpecies });
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while retrieving organisms."
+        });
+      });
+  
+
+
 
 exports.simulation = (req, res) => {
   console.log('Simulation');
@@ -174,7 +260,7 @@ exports.deleteAll = (req, res) => {
   Organism.deleteMany({})
     .then(data => {
       res.send({
-        message: `${data.deletedCount} Organisms were deleted successfully!`
+        message: `${data.deletedCount} Organisms were died successfully!`
       });
     })
     .catch(err => {
@@ -197,4 +283,6 @@ exports.findAllPublished = (req, res) => {
           err.message || "Some error occurred while retrieving organisms."
       });
     });
+};
+  };
 };
