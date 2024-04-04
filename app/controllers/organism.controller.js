@@ -37,6 +37,7 @@ exports.findAll = (req, res) => {
 
   Organism.find(condition)
     .then(data => {
+      console.log(data);
       res.send(data);
     })
     .catch(err => {
@@ -108,6 +109,62 @@ exports.delete = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Could not delete Organism with id=" + id
+      });
+    });
+};
+
+exports.simulation = (req, res) => {
+  console.log('Simulation');
+  const species = req.query.species;
+  var condition = species ? { species: { $regex: new RegExp(species), $options: "i" } } : {};
+  let recordsToDelete=new Map();
+  Organism.find(condition)
+    .then(data => {
+      console.log(data);
+      let i = data.length;
+      data.forEach(record=>{
+        if(!recordsToDelete.has(record.species)){
+          recordsToDelete.set(record.species, record._id);
+        }
+        i--;
+        console.log(i);
+        if(i==0){
+          console.log(recordsToDelete);
+          let mCount = recordsToDelete.size;
+          recordsToDelete.forEach((id, spec)=>{
+            Organism.findByIdAndRemove(id, { useFindAndModify: false })
+            .then(data => {
+              if (!data) {
+                console.log(`Cannot delete Organism with id=${id}. Maybe Organism was not found!`);
+              } else {
+                  console.log("Organism was deleted successfully!");
+              }
+            })
+            .catch(err => {
+              console.log("Could not delete Organism with id=" + id);
+            });
+            mCount--;
+            if(mCount==0){
+              Organism.find({})
+              .then(data => {
+                console.log(data);
+                res.send(data);
+              })
+              .catch(err => {
+                res.status(500).send({
+                  message:
+                    err.message || "Some error occurred while retrieving organisms."
+                });
+              });
+            }
+          })
+        }
+      });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving organisms."
       });
     });
 };

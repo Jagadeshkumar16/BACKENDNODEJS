@@ -131,6 +131,8 @@ module.exports = app => {
 
   router.delete("/organism/", organism.deleteAll);
 
+  router.get("/organismsimulation", organism.simulation);
+
 
 
   // predator
