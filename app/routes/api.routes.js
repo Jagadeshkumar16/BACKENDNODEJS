@@ -70,11 +70,9 @@ module.exports = app => {
   // organism routes
   router.post("/organism/", organism.create);
   router.get("/organism/", organism.findAll);
-  router.get("/organism/published", organism.findAllPublished);
   router.get("/organism/:id", organism.findOne);
   router.put("/organism/:id", organism.update);
   router.delete("/organism/:id", organism.delete);
-  router.delete("/organism/", organism.deleteAll);
   router.get("/organismsimulation", organism.simulation);
 
   router.get("/organismsimulation", organism.simulation);
