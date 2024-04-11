@@ -10,13 +10,13 @@ exports.create = (req, res) => {
   }
 
   // Create a Cell
-  const cell = new Cell({
+  const Cell = new Cell({
     type:string
   });
 
   // Save Cell in the database
-  cell
-    .save(cell)
+  Cell
+    .save(Cell)
     .then(data => {
       res.send(data);
     })

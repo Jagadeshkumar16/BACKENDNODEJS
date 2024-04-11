@@ -160,7 +160,7 @@ exports.simulation = (req, res) => {
         });
       });
   } else if (action == 'reproduce') {
-    let species = ['Human', 'Lion', 'Giraffe', 'Eagle', 'Pigeon', 'Cell'];
+    let species = ['Human', 'Lion', 'Giraffee', 'Eagle', 'Pigeon', 'Cell'];
     let reprodSpecies = [];
     while (reprodSpecies.length < 5) {
       reprodSpecies.push(species[Math.floor(Math.random() * species.length)]);
