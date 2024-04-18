@@ -112,7 +112,7 @@ module.exports = app => {
   router.post("/user/", user.create);
   router.post("/login/", user.login);
   router.get("/cell/", (req, res) => {
-    cell.findAll(req, res); // Call the controller method for finding all cells
+    cell.findAll(req, res); 
   });
 
   app.use("/api", router);
