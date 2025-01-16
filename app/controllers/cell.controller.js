@@ -1,5 +1,6 @@
 const db = require("../models");
 const Cell = db.cells;
+const User = db.users;
 
 // Create and Save a new Cell
 exports.create = (req, res) => {
