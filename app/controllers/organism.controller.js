@@ -1,6 +1,7 @@
 const db = require("../models");
 const Organism = db.organism;
 const OrganismType = db.organismType;
+const OrganismSubtype = db.organismSubtype;
 
 // Create and Save a new Organism
 exports.create = (req, res) => {
